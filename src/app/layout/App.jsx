@@ -5,12 +5,12 @@ import Navbar from '../../features/navbar/NavBar/NavBar';
 
 function App() {
   return (
-  <div>
-    <Navbar/>
-    <Container className="main">
-    <EventDashboard/>
-    </Container>
-  </div>
+    <div>
+      <Navbar />
+      <Container className="main">
+        <EventDashboard />
+      </Container>
+    </div>
   );
 }
 

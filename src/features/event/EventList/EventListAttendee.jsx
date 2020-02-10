@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Pure, PureComponent } from 'react';
 import { List, Image} from 'semantic-ui-react';
 
-class EventListAttendee extends Component {
+class EventListAttendee extends PureComponent {
   render() {
     const {attendee} = this.props;
     return (
