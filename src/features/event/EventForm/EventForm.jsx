@@ -9,32 +9,32 @@ const emptyEvent = {
   city: '',
   venue: '',
   hostedBy: '',
-  description: ''
+  description: '',
 };
 
 class EventForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      event: emptyEvent
+      event: emptyEvent,
     };
   }
 
   componentDidMount() {
     const {
-      selectedEvent
+      selectedEvent,
     } = this.props;
 
     if (selectedEvent !== null) {
       alert(1);
       this.setState({
-        event: selectedEvent
+        event: selectedEvent,
       });
     } else {
       console.log(emptyEvent);
       alert(2);
       this.setState({
-        event: emptyEvent
+        event: emptyEvent,
       });
     }
   }
@@ -43,16 +43,16 @@ class EventForm extends Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     console.log(nextProps);
     const {
-      selectedEvent
+      selectedEvent,
     } = this.props;
 
     if (nextProps.selectedEvent !== selectedEvent) {
       this.setState({
-        event: nextProps.selectedEvent || emptyEvent
+        event: nextProps.selectedEvent || emptyEvent,
       });
     } else {
       this.setState({
-        event: emptyEvent
+        event: emptyEvent,
       });
     }
   }
@@ -60,11 +60,11 @@ class EventForm extends Component {
   onFormSubmit = (e) => {
     e.preventDefault();
     const {
-      event
+      event,
     } = this.state;
 
     const {
-      updateEvent, createEvent
+      updateEvent, createEvent,
     } = this.props;
 
 
@@ -73,30 +73,30 @@ class EventForm extends Component {
     } else {
       createEvent(event);
       this.setState({
-        event: emptyEvent
+        event: emptyEvent,
       });
     }
   }
 
   onInputChange = (e) => {
     const {
-      event
+      event,
     } = this.state;
 
     const newEvent = event;
 
     newEvent[e.target.name] = e.target.value;
     this.setState({
-      event: newEvent
+      event: newEvent,
     });
   }
 
   render() {
     const {
-      handleCancel
+      handleCancel,
     } = this.props;
     const {
-      event
+      event,
     } = this.state;
     return (
       <Segment>
