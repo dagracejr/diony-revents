@@ -9,6 +9,7 @@ import UserDetailed from '../../features/user/UserDetailed/UserDetailedPage';
 import SettingsDashboard from '../../features/user/Settings/SettingsDashboard';
 import Navbar from '../../features/navbar/NavBar/NavBar';
 import HomePage from '../../features/home/HomePage';
+import TestComponent from '../../features/testarea/TestComponent';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
                 <Route path="/profile/:id" component={UserDetailed} />
                 <Route path="/settings" component={SettingsDashboard} />
                 <Route path="/createEvent" component={EventForm} />
+                <Route path="/test" component={TestComponent} />
               </Switch>
             </Container>
           </>

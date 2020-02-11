@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import { Menu, Container, Button } from 'semantic-ui-react';
 import { NavLink, Link, withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+// All Components Below
 import SignedOutMenu from '../Menus/SignedOutMenu';
 import SignedInMenu from '../Menus/SignedInMenu';
 
@@ -41,6 +43,7 @@ class Navbar extends PureComponent {
             Diony Re-vents
           </Menu.Item>
           <Menu.Item as={NavLink} to="/events" name="Events" />
+          <Menu.Item as={NavLink} to="/test" name="test" />
           {authenticated && <Menu.Item as={NavLink} to="/people" name="People" />}
           {authenticated && (
           <Menu.Item>
@@ -64,5 +67,11 @@ class Navbar extends PureComponent {
     );
   }
 }
+
+Navbar.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
 
 export default withRouter(Navbar);
