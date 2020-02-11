@@ -36,7 +36,7 @@ class Navbar extends PureComponent {
     return (
       <Menu inverted fixed="top">
         <Container>
-          <Menu.Item header as={NavLink} exact to="/">
+          <Menu.Item header as={Link} exact to="/">
             <img src="assets/logo.png" alt="logo" />
             Diony Re-vents
           </Menu.Item>
