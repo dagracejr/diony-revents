@@ -1,139 +1,101 @@
 import React, { Component } from 'react';
 import { Grid, Button } from 'semantic-ui-react';
 import cuid from 'cuid';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import EventList from '../EventList/EventList';
 import EventForm from '../EventForm/EventForm';
+import {
+  createEvent as createEventConnect,
+  deleteEvent as deleteEventConnect,
+  updateEvent as updateEventConnect,
+} from '../eventActions';
 
-const eventsDashboard = [
-  {
-    id: '1',
-    title: 'Trip to Tower of London',
-    date: '2018-03-27',
-    category: 'culture',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.',
-    city: 'London, UK',
-    venue: "Tower of London, St Katharine's & Wapping, London",
-    hostedBy: 'Bob',
-    hostPhotoURL: 'https://randomuser.me/api/portraits/men/20.jpg',
-    attendees: [
-      {
-        id: 'a',
-        name: 'Bob',
-        photoURL: 'https://randomuser.me/api/portraits/women/29.jpg'
-      },
-      {
-        id: 'b',
-        name: 'Tom',
-        photoURL: 'https://randomuser.me/api/portraits/women/91.jpg'
-      }
-    ]
-  },
-  {
-    id: '2',
-    title: 'Trip to Punch and Judy Pub',
-    date: '2018-03-28',
-    category: 'drinks',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.',
-    city: 'London, UK',
-    venue: 'Punch & Judy, Henrietta Street, London, UK',
-    hostedBy: 'Tom',
-    hostPhotoURL: 'https://randomuser.me/api/portraits/men/22.jpg',
-    attendees: [
-      {
-        id: 'b',
-        name: 'Tom',
-        photoURL: 'https://randomuser.me/api/portraits/women/36.jpg'
-      },
-      {
-        id: 'a',
-        name: 'Bob',
-        photoURL: 'https://randomuser.me/api/portraits/men/19.jpg'
-      }
-    ]
-  }
-];
+const mapState = (state) => ({
+  events: state.events,
+});
 
+const actions = {
+  createEvent: createEventConnect,
+  deleteEvent: deleteEventConnect,
+  updateEvent: updateEventConnect,
+};
 
 class EventDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      events: eventsDashboard,
       isOpen: false,
-      selectedEvent: null
+      selectedEvent: null,
     };
   }
 
   handleFormOpen = () => {
     this.setState({
       selectedEvent: null,
-      isOpen: true
+      isOpen: true,
     });
   }
 
   handleCancel = () => {
     this.setState({
-      isOpen: false
+      isOpen: false,
     });
   }
 
   handleCreateEvent = (newEvent) => {
     const {
-      events
-    } = this.state;
+      createEvent,
+    } = this.props;
 
     // eslint-disable-next-line no-param-reassign
     newEvent.id = cuid();
     // eslint-disable-next-line no-param-reassign
     newEvent.hostPhotoURL = '/assets/user.png';
-    const updatedEvents = [...events, newEvent];
+    createEvent(newEvent);
+
     this.setState({
-      events: updatedEvents,
-      isOpen: false
+      isOpen: false,
     });
   }
 
   handleUpdateEvent = (updatedEvent) => {
     const {
-      events
-    } = this.state;
+      updateEvent,
+    } = this.props;
+
+    updateEvent(updatedEvent);
 
     this.setState({
-      events: events.map((event) => {
-        if (event.id === updatedEvent.id) {
-          return { ...updatedEvent };
-        }
-        return event;
-      }),
       isOpen: false,
-      selectedEvent: null
+      selectedEvent: null,
     });
   }
 
   handleDeleteEvent = (eventId) => () => {
     const {
-      events
-    } = this.state;
+      deleteEvent,
+    } = this.props;
 
-    const updatedEvents = events.filter((e) => e.id !== eventId);
-    this.setState({
-      events: updatedEvents
-    });
+    deleteEvent(eventId);
   }
 
   handleOpenEvent = (eventToOpen) => () => {
     this.setState({
       selectedEvent: eventToOpen,
-      isOpen: true
+      isOpen: true,
     });
   }
 
   render() {
-  const {
-    selectedEvent, isOpen, events
-  } = this.state;
+    const {
+      selectedEvent, isOpen,
+    } = this.state;
+
+    const {
+      events,
+    } = this.props;
+
     return (
       <Grid>
         <Grid.Column width={10}>
@@ -164,4 +126,11 @@ class EventDashboard extends Component {
   }
 }
 
-export default EventDashboard;
+EventDashboard.propTypes = {
+  events: PropTypes.shape().isRequired,
+  createEvent: PropTypes.func.isRequired,
+  deleteEvent: PropTypes.func.isRequired,
+  updateEvent: PropTypes.func.isRequired,
+};
+
+export default connect(mapState, actions)(EventDashboard);
