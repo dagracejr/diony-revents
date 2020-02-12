@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
-
+import { Link } from 'react-router-dom';
 import {
   Segment,
   Item,
   List,
   Icon,
-  Button
+  Button,
 } from 'semantic-ui-react';
 import EventListAtendee from './EventListAttendee';
 
@@ -53,7 +53,7 @@ class EventListItem extends PureComponent {
         <Segment clearing>
           <span>{event.description}</span>
           <Button onClick={deleteEvent(event.id)} as="a" color="red" floated="right" content="Remove" />
-          <Button onClick={onEventOpen(event)} as="a" color="teal" floated="right" content="View" />
+          <Button as={Link} to={`/event/${event.id}`} color="teal" floated="right" content="View" />
         </Segment>
       </Segment.Group>
     );
