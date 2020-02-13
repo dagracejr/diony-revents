@@ -14,8 +14,7 @@ class EventListItem extends PureComponent {
   render() {
     const {
       event,
-      onEventOpen,
-      deleteEvent
+      deleteEvent,
     } = this.props;
 
     return (
@@ -59,5 +58,10 @@ class EventListItem extends PureComponent {
     );
   }
 }
+
+EventListItem.propTypes = {
+  event: PropTypes.shape().isRequired,
+  deleteEvent: PropTypes.func.isRequired,
+};
 
 export default EventListItem;

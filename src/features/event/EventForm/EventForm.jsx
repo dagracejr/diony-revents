@@ -1,60 +1,49 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
+import cuid from 'cuid';
+import { connect } from 'react-redux';
 import { Segment, Form, Button } from 'semantic-ui-react';
+import { createEvent as createEventConnect, updateEvent as updateEventConnect } from '../eventActions';
 
-const emptyEvent = {
-  title: '',
-  date: '',
-  city: '',
-  venue: '',
-  hostedBy: '',
-  description: '',
+const mapState = (state, ownProps) => {
+  const eventId = ownProps.match.params.id;
+
+  let event = {
+    title: '',
+    date: '',
+    city: '',
+    venue: '',
+    hostedBy: '',
+    description: '',
+  };
+
+  if (eventId && state.events.length > 0) {
+    const arr = state.events;
+    const filteredArr = arr.filter((fEvent) => fEvent.id === eventId)[0];
+    event = filteredArr;
+  }
+
+  return {
+    event,
+  };
+};
+
+const actions = {
+  createEvent: createEventConnect,
+  updateEvent: updateEventConnect,
 };
 
 class EventForm extends Component {
   constructor(props) {
     super(props);
+    const {
+      event,
+    } = this.props;
+
     this.state = {
-      event: emptyEvent,
+      event: { ...event },
     };
-  }
-
-  componentDidMount() {
-    const {
-      selectedEvent,
-    } = this.props;
-
-    if (selectedEvent !== null) {
-      alert(1);
-      this.setState({
-        event: selectedEvent,
-      });
-    } else {
-      console.log(emptyEvent);
-      alert(2);
-      this.setState({
-        event: emptyEvent,
-      });
-    }
-  }
-
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
-    const {
-      selectedEvent,
-    } = this.props;
-
-    if (nextProps.selectedEvent !== selectedEvent) {
-      this.setState({
-        event: nextProps.selectedEvent || emptyEvent,
-      });
-    } else {
-      this.setState({
-        event: emptyEvent,
-      });
-    }
   }
 
   onFormSubmit = (e) => {
@@ -64,17 +53,33 @@ class EventForm extends Component {
     } = this.state;
 
     const {
-      updateEvent, createEvent,
+      updateEvent, createEvent, history,
     } = this.props;
 
 
     if (event.id) {
       updateEvent(event);
+      history.goBack();
     } else {
-      createEvent(event);
+      const newEvent = {
+        ...event,
+        id: cuid(),
+        hostPhotoURL: '/assets/user.png',
+      };
+
+      createEvent(newEvent);
       this.setState({
-        event: emptyEvent,
+        event: {
+          title: '',
+          date: '',
+          city: '',
+          venue: '',
+          hostedBy: '',
+          description: '',
+        },
       });
+
+      history.push('/events');
     }
   }
 
@@ -93,7 +98,7 @@ class EventForm extends Component {
 
   render() {
     const {
-      handleCancel,
+      history,
     } = this.props;
     const {
       event,
@@ -128,7 +133,7 @@ class EventForm extends Component {
           <Button positive type="submit">
             Submit
           </Button>
-          <Button onClick={handleCancel} type="button">Cancel</Button>
+          <Button onClick={history.goBack} type="button">Cancel</Button>
         </Form>
       </Segment>
     );
@@ -136,10 +141,10 @@ class EventForm extends Component {
 }
 
 EventForm.propTypes = {
-  selectedEvent: propTypes.shape.isRequired,
-  handleCancel: propTypes.func.isRequired,
+  event: propTypes.shape().isRequired,
   updateEvent: propTypes.func.isRequired,
   createEvent: propTypes.func.isRequired,
+  history: propTypes.shape().isRequired,
 };
 
-export default EventForm;
+export default connect(mapState, actions)(EventForm);

@@ -1,13 +1,12 @@
 import React, { PureComponent } from 'react';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import EventListItem from './EventListItem';
 
 class EventList extends PureComponent {
   render() {
     const {
       events,
-      onEventOpen,
-      deleteEvent
+      deleteEvent,
     } = this.props;
     return (
       <div>
@@ -15,7 +14,6 @@ class EventList extends PureComponent {
           <EventListItem
             key={event.id}
             event={event}
-            onEventOpen={onEventOpen}
             deleteEvent={deleteEvent}
           />
         ))}
@@ -23,6 +21,11 @@ class EventList extends PureComponent {
     );
   }
 }
+
+EventList.propTypes = {
+  events: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  deleteEvent: PropTypes.func.isRequired,
+};
 
 
 export default EventList;

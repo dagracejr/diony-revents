@@ -38,7 +38,7 @@ class Navbar extends PureComponent {
     return (
       <Menu inverted fixed="top">
         <Container>
-          <Menu.Item header as={Link} exact to="/">
+          <Menu.Item header as={Link} to="/">
             <img src="assets/logo.png" alt="logo" />
             Diony Re-vents
           </Menu.Item>
@@ -69,9 +69,7 @@ class Navbar extends PureComponent {
 }
 
 Navbar.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
+  history: PropTypes.shape().isRequired,
 };
 
 export default withRouter(Navbar);

@@ -32,7 +32,7 @@ function HomePage({ history }) {
 }
 
 HomePage.propTypes = {
-  history: propTypes.func.isRequired,
+  history: propTypes.shape().isRequired,
 };
 
 export default HomePage;
