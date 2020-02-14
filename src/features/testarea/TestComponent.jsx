@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 const mapState = (state) => ({
   answer: state.test.answer,
 });
 
-export class TestComponent extends PureComponent {
+class TestComponent extends PureComponent {
   render() {
     const {
       answer,
@@ -18,5 +19,13 @@ export class TestComponent extends PureComponent {
     );
   }
 }
+
+TestComponent.propTypes = {
+  answer: PropTypes.number,
+};
+
+TestComponent.defaultProps = {
+  answer: null,
+};
 
 export default connect(mapState)(TestComponent);

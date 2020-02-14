@@ -7,7 +7,7 @@ import {
 import PropTypes from 'prop-types';
 
 function EventDetailedSidebar({ attendees }) {
-  const isHost = false;
+  // const isHost = false;
   return (
     <>
       <Segment
@@ -45,7 +45,11 @@ function EventDetailedSidebar({ attendees }) {
 }
 
 EventDetailedSidebar.propTypes = {
-  attendees: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  attendees: PropTypes.arrayOf(PropTypes.shape()),
+};
+
+EventDetailedSidebar.defaultProps = {
+  attendees: [],
 };
 
 export default EventDetailedSidebar;
