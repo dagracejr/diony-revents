@@ -10,6 +10,7 @@ import {
 import {
   composeValidators, combineValidators, isRequired, hasLengthGreaterThan,
 } from 'revalidate';
+import moment from 'moment';
 import { createEvent as createEventConnect, updateEvent as updateEventConnect } from '../eventActions';
 import TextInput from '../../../app/common/form/TextInput';
 import TextArea from '../../../app/common/form/TextArea';
@@ -77,12 +78,16 @@ class EventForm extends Component {
       history,
     } = this.props;
 
+    const event = values;
+    const dateOne = moment(event.date).format('MM-DD-YYYY HH:mm');
+    event.date = dateOne;
+
     if (initialValues.id) {
-      updateEvent(values);
+      updateEvent(event);
       history.goBack();
     } else {
       const newEvent = {
-        ...values,
+        ...event,
         id: cuid(),
         hostPhotoURL: '/assets/user.png',
         hostedBy: 'Bob',
