@@ -14,6 +14,7 @@ import { createEvent as createEventConnect, updateEvent as updateEventConnect } 
 import TextInput from '../../../app/common/form/TextInput';
 import TextArea from '../../../app/common/form/TextArea';
 import SelectInput from '../../../app/common/form/SelectInput';
+import DateInput from '../../../app/common/form/DateInput';
 
 const mapState = (state, ownProps) => {
   const eventId = ownProps.match.params.id;
@@ -112,7 +113,16 @@ class EventForm extends Component {
               <Header sub color="teal" content="Event Location Details" />
               <Field name="city" type="text" component={TextInput} placeholder="Event City" />
               <Field name="venue" type="text" component={TextInput} placeholder="Event Venue" />
-              <Field name="date" type="text" component={TextInput} placeholder="Event Date" />
+              <Field
+                name="date"
+                type="text"
+                component={DateInput}
+                timeIntervals={15}
+                dateFormat="yyyy/MM/dd HH:mm"
+                timeFormat="HH:mm"
+                showTimeSelect
+                placeholder="Event Date and Time"
+              />
               <Button disabled={invalid || submitting || pristine} positive type="submit">
                 Submit
               </Button>
@@ -128,6 +138,9 @@ class EventForm extends Component {
 EventForm.propTypes = {
   initialValues: propTypes.shape().isRequired,
   updateEvent: propTypes.func.isRequired,
+  invalid: propTypes.bool.isRequired,
+  submitting: propTypes.bool.isRequired,
+  pristine: propTypes.bool.isRequired,
   handleSubmit: propTypes.func.isRequired,
   createEvent: propTypes.func.isRequired,
   history: propTypes.shape().isRequired,
