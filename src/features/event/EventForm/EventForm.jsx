@@ -59,17 +59,6 @@ const validate = combineValidators({
 });
 
 class EventForm extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   const {
-  //     event,
-  //   } = this.props;
-
-  //   this.state = {
-  //     event: { ...event },
-  //   };
-  // }
-
   onFormSubmit = (values) => {
     const {
       initialValues,
